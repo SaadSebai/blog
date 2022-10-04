@@ -17,14 +17,14 @@ class BlogController extends Controller
     public function index()
     {
         return Inertia::render('Blogs/Index', [
-            'blogs' => Blog::latest()->with('user:id,name')->paginate()
+            'blogs' => Blog::latest()->with('user:id,name')->withCount('comments')->paginate()
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreBlogRequest  $request
+     * @param  \App\Http\Requests\Blog\StoreBlogRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreBlogRequest $request)
@@ -37,13 +37,12 @@ class BlogController extends Controller
         : session()->flash('error', 'Blog creation failed, please try again later.');
 
         return redirect()->route('blogs.index');
-
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateBlogRequest  $request
+     * @param  \App\Http\Requests\Blog\UpdateBlogRequest  $request
      * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */

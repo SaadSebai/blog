@@ -11,12 +11,16 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * Attributes:
+ * @property int $id
  * @property string $name
  * @property string $email
  * @property string $password
+ * @property string $created_at
+ * @property string $updated_at
  *
  * Relationships:
  * @property \Illuminate\Database\Eloquent\Collection $blogs
+ * @property \Illuminate\Database\Eloquent\Collection $comments
  */
 class User extends Authenticatable
 {
@@ -58,5 +62,13 @@ class User extends Authenticatable
     public function blogs(): HasMany
     {
         return $this->hasMany(Blog::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }

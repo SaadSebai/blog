@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,7 +26,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::resource('blogs', BlogController::class)->except(['create', 'edit', 'show'])
-    ->middleware(['auth', 'verified']);
+Route::middleware(['auth', 'verified'])
+    ->group(function(){
+        Route::resource('blogs', BlogController::class)->except(['create', 'edit', 'show']);
+        Route::resource('blogs.comments', CommentController::class)->only(['index', 'store', 'destroy']);
+    });
 
 require __DIR__.'/auth.php';
