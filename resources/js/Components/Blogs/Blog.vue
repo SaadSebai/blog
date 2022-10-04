@@ -40,10 +40,16 @@
                                 <p class="mt-4 text-sm text-gray-900">{{ blog.body }}</p>
                             </div>
 
+
                         </div>
                     </div>
                 </div>
             </div>
+
+            <comment-section
+                :blog="blog"
+            />
+
         </div>
 </template>
 
@@ -52,9 +58,8 @@
     import relativeTime from 'dayjs/plugin/relativeTime';
     import Dropdown from '@/Components/Dropdown.vue';
     import DropdownLink from '@/Components/DropdownLink.vue';
-    import { useForm } from '@inertiajs/inertia-vue3';
-    import { ref } from 'vue';
     import UpdateForm from '@/Components/Blogs/UpdateForm.vue';
+    import CommentSection from '@/Components/Comments/CommentSection.vue';
 
     dayjs.extend(relativeTime);
 
@@ -63,10 +68,9 @@
             dayjs,
             relativeTime,
             Dropdown,
-            useForm,
-            ref,
-            UpdateForm,
             DropdownLink,
+            UpdateForm,
+            CommentSection,
         },
         props: {
             blog: Object,
