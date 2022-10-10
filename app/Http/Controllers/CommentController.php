@@ -20,7 +20,6 @@ class CommentController extends Controller
         return Inertia::render('Blogs/Index', [
             'comments' => $blog->comments()->with('user:id,name')->latest()->paginate(3)
         ]);
-
     }
 
     /**

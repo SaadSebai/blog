@@ -53,39 +53,25 @@
         </div>
 </template>
 
-<script>
+<script setup>
     import dayjs from 'dayjs';
     import relativeTime from 'dayjs/plugin/relativeTime';
     import Dropdown from '@/Components/Dropdown.vue';
     import DropdownLink from '@/Components/DropdownLink.vue';
     import UpdateForm from '@/Components/Blogs/UpdateForm.vue';
     import CommentSection from '@/Components/Comments/CommentSection.vue';
+    import { ref } from 'vue';
 
     dayjs.extend(relativeTime);
 
-    export default {
-        components: {
-            dayjs,
-            relativeTime,
-            Dropdown,
-            DropdownLink,
-            UpdateForm,
-            CommentSection,
-        },
-        props: {
-            blog: Object,
-        },
-        data() {
-            return {
-                editing: false,
-                dayjs,
-            }
-        },
-        methods: {
-            edited($value) {
-                this.editing = $value;
-            },
-        },
+    defineProps({
+        blog: Object
+    })
+
+    const editing = ref(false);
+
+    function edited(value) {
+        editing.value = value;
     }
 </script>
 

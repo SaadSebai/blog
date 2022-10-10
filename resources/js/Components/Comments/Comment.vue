@@ -42,25 +42,16 @@
     </div>
 </template>
 
-<script>
+<script setup>
     import dayjs from 'dayjs';
     import relativeTime from 'dayjs/plugin/relativeTime';
     import Dropdown from '@/Components/Dropdown.vue';
     import DropdownLink from '@/Components/DropdownLink.vue';
 
     dayjs.extend(relativeTime);
-    export default {
-        components: {
-            dayjs,
-            Dropdown,
-            DropdownLink,
-        },
-        props: ['comment'],
-        data() {
-            return {
-                dayjs,
-            };
-        },
-    };
+
+    defineProps({
+        comment: Object
+    });
 
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="my-2 px-7">
         <form @submit.prevent="form.post(route('blogs.comments.store', blog.id),
-                            { onSuccess: () => {form.reset(); $emit('created');},
+                            { onSuccess: () => { form.reset(); $emit('created'); },
                             preserveScroll: true })"
         >
             <div class="flex flex-row">
