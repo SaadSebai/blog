@@ -29,55 +29,52 @@
     </div>
 </template>
 
-<script>
+<script setup>
+    import { ref } from 'vue';
     import Comment from './Comment.vue';
     import CommentForm from './CommentForm.vue';
+    import { Inertia } from '@inertiajs/inertia'
 
-    export default {
-        components: {
-            Comment,
-            CommentForm,
-        },
-        props: ['blog'],
-        data() {
-            return {
-                comments: null,
-                loadable: true,
-                nextPage: null,
-            };
-        },
-        methods: {
-            loadComments() {
-                if(this.loadable)
-                {
-                    this.$inertia.get(this.nextPage ?? route('blogs.comments.index', this.blog.id), {}, {
-                        preserveState: true,
-                        preserveScroll: true,
-                        only: ['comments'],
-                        onSuccess: ({props}) => {
-                            this.comments = this.nextPage ? [...this.comments, ...props.comments.data] : props.comments.data;
-                            if(props.comments.next_page_url && this.nextPage != props.comments.next_page_url)
-                            {
-                                this.nextPage = props.comments.next_page_url;
-                            }
-                            else
-                            {
-                                this.loadable = false;
-                                this.nextPage = null;
-                            }
-                        }
-                    });
+    const props = defineProps({
+        blog: Object
+    });
+
+    const comments = ref(null);
+    const loadable = ref(true);
+    const nextPage = ref(null);
+
+    function loadComments() {
+        if(loadable.value)
+        {
+            Inertia.get(nextPage.value ?? route('blogs.comments.index', props.blog.id), {}, {
+                preserveState: true,
+                preserveScroll: true,
+                only: ['comments'],
+                onSuccess: ({props}) => {
+                    console.log(props)
+                    comments.value = nextPage.value ? [...comments.value, ...props.comments.data] : props.comments.data;
+                    if(props.comments.next_page_url && nextPage.value != props.comments.next_page_url)
+                    {
+                        nextPage.value = props.comments.next_page_url;
+                    }
+                    else
+                    {
+                        loadable.value = false;
+                        nextPage.value = null;
+                    }
                 }
-            },
-            created()
-            {
-                this.comments = null;
-                this.loadable = true;
-                this.nextPage = null;
-            },
-            deleted(comment) {
-                this.comments.pop(comment);
-            },
-        },
-    };
+            });
+        }
+    }
+
+    function created()
+    {
+        comments.value = null;
+        loadable.value = true;
+        nextPage.value = null;
+    }
+
+    function deleted(comment) {
+        comments.value.pop(comment);
+    }
 </script>

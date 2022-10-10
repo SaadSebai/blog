@@ -32,16 +32,13 @@
     </div>
 </template>
 
-<script>
-    export default {
-        props: {
-            flash: Object,
-        },
-        methods: {
-            close() {
-                this.flash.success = null;
-                this.flash.error = null;
-            }
-        },
-    }
+<script setup>
+    const props = defineProps({
+        flash: Object
+    });
+
+    function close() {
+    props.flash.success = null;
+    props.flash.error = null;
+}
 </script>

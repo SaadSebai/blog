@@ -1,6 +1,9 @@
 <template>
     <div>
-        <form @submit.prevent="form.put(route('blogs.update', blog.id), { onSuccess: () => $emit('edited', false) })">
+        <form @submit.prevent="
+            form.put(route('blogs.update', blog.id),
+            { onSuccess: () => $emit('edited', false), preserveScroll: true })
+        ">
             <div class="mt-4 ">
                 <span for="tile">Title:</span>
                 <input
