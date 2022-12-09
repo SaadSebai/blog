@@ -20,7 +20,8 @@ use Inertia\Inertia;
 Route::redirect('/', 'blogs');
 
 Route::middleware(['auth', 'verified'])
-    ->group(function(){
+    ->group(function () {
+        Route::get('/blogs/like', [BlogController::class, 'like']);
         Route::resource('blogs', BlogController::class)->except(['create', 'edit', 'show']);
         Route::resource('blogs.comments', CommentController::class)->only(['index', 'store', 'destroy']);
     });

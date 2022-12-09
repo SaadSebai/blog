@@ -12,7 +12,7 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -33,8 +33,8 @@ class BlogController extends Controller
             ...$request->validated(),
             'user_id' => auth()->id()
         ])
-        ? session()->flash('success', 'Blog has been created successfully.')
-        : session()->flash('error', 'Blog creation failed, please try again later.');
+            ? session()->flash('success', 'Blog has been created successfully.')
+            : session()->flash('error', 'Blog creation failed, please try again later.');
 
         return redirect()->route('blogs.index');
     }
@@ -49,8 +49,8 @@ class BlogController extends Controller
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
         $blog->update($request->validated())
-        ? session()->flash('success', 'Blog has been updated successfully.')
-        : session()->flash('error', 'Blog update failed, please try again later.');
+            ? session()->flash('success', 'Blog has been updated successfully.')
+            : session()->flash('error', 'Blog update failed, please try again later.');
 
         return redirect()->route('blogs.index');
     }
@@ -66,8 +66,17 @@ class BlogController extends Controller
         $this->authorize('delete', $blog);
 
         $blog->delete()
-        ? session()->flash('success', 'Blog has been deleted successfully.')
-        : session()->flash('error', 'Blog delete failed, please try again later.');
+            ? session()->flash('success', 'Blog has been deleted successfully.')
+            : session()->flash('error', 'Blog delete failed, please try again later.');
+
+        return redirect()->route('blogs.index');
+    }
+
+    public function like(Blog $blog)
+    {
+        $blog->increment('likes')
+            ? session()->flash('success', 'You like this Blog.')
+            : session()->flash('error', 'We may have a problem here, please try again later.');
 
         return redirect()->route('blogs.index');
     }
